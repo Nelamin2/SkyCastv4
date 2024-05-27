@@ -1,0 +1,103 @@
+/* Global Styles */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Button Styles */
+button {
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Form Styles */
+form {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="text"], select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Specific Page Styles */
+
+/* Home Page */
+.home-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.home-main button {
+    width: 50%;
+    max-width: 300px;
+}
+
+/* Search Page */
+.search-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-main div {
+    margin: 10px 0;
+}
+
+/* Results Page */
+.results-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.results-main h2, .results-main p {
+    margin: 10px 0;
+}

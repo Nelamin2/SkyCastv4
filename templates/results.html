@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyCast Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+</head>
+<body>
+    <header>
+        <h1>SkyCast</h1>
+    </header>
+    <main>
+        <h2>Weather in {{ location }}</h2>
+        <p>Temperature: {{ temp }}{{ units }}</p>
+        <p>Feels Like: {{ feels_like }}{{ units }}</p>
+        <p>Weather: {{ weather }}</p>
+    </main>
+</body>
+</html>
