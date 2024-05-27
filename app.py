@@ -3,9 +3,13 @@ from flask import Flask, render_template, request, abort
 
 app = Flask(__name__)
 
+@app.route('/search')
+def search():
+    return render_template('search.html')
+
 @app.route('/')
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('home.html')
 
 @app.route('/results', methods=['POST'])
 def get_forecast():
