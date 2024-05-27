@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var locationInput = document.getElementById("location");
+            locationInput.addEventListener("input", function() {
+                if (this.value !== "") {
+                    this.removeAttribute("placeholder");
+                } else {
+                    this.setAttribute("placeholder", "Search for city or zip code");
+                }
+            });
+
+            document.getElementById("auto-location").addEventListener("click", function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        document.getElementById("location").value = position.coords.latitude + "," + position.coords.longitude;
+                        document.getElementById("location-form").submit();
+                    });
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2 class="weatherText">Every forecast sparks a new adventure</h2>
+    <form id="location-form" action="/results" method="post">
+        <label for="location"></label>
+        <input type="text" id="location" name="location" placeholder="Search for city or zip code" required>
+        <label for="units">Units:</label>
+        <select id="units" name="units">
+            <option value="imperial">Fahrenheit</option>
+            <option value="metric">Celsius</option>
+            <option value="standard">Kelvin</option>
+        </select>
+        <button type="submit" id="get-forecast">Get Forecast</button>
+        <button type="button" id="auto-location">Weather in your city</button>
+    </form>
+</body>
+</html>

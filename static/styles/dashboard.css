@@ -1,0 +1,87 @@
+/* Body styling */
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Heading styling */
+.weatherText {
+    text-align: left;
+    margin-top: 20px;
+    font-size: 24px;
+    padding-left: 10px;
+    color: #333; /* Adjust the color to your preference */
+}
+
+/* Form styling */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input styling */
+input[type="text"] {
+    width: calc(100% - 40px);
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Adjust the border color to your preference */
+    border-radius: 5px;
+}
+
+/* Select styling */
+select {
+    width: calc(100% - 40px);
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Adjust the border color to your preference */
+    border-radius: 5px;
+    appearance: none;
+    background: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDA3YmZmIiBoZWlnaHQ9IjE4cHgiIHZpZXdCb3g9IjAgMCAxMCAxOCIgd2lkdGg9IjEwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUgMTMuMjU4IDAgOC41MzVsLjcwNy0uNzA3IDQgNCA0LTRsLjcwNy43MDd6bTAtOC41MzVMMC41NDMgMGwtLjcwNy43MDdMOS4yOTMgNCAwIDguNTM1em0wIDBoLjcwNy43MDdMMCAxMi40NjUgOS4yOTMgN0w5LjI5MyAxMkgxMHBMMC41NDMxeiIvPjwvc3ZnPg==') no-repeat 98% 50%;
+    background-size: 12px;
+}
+
+/* Button styling */
+button {
+    padding: 8px 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    position: relative;
+}
+
+button[type="button"] {
+    background-color: #28a745;
+    margin-left: 10px;
+}
+
+/* Icon styling */
+button[type="submit"]:before {
+    content: "\1F50D"; /* Unicode for search icon */
+    margin-right: 5px;
+}
+
+/* Hide default arrow for select inputs */
+select::-ms-expand {
+    display: none;
+}
+
+select::-webkit-inner-spin-button,
+select::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Weather Forecast</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/view_forecast.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Forecast for {{ location }}</h1>
+        <div class="weather-info">
+            <p><strong>Temperature:</strong> {{ temp }} {{ units }}</p>
+            <p><strong>Feels Like:</strong> {{ feels_like }} {{ units }}</p>
+            <p><strong>Weather:</strong> {{ weather }}</p>
+        </div>
+    </div>
+</body>
+</html>
