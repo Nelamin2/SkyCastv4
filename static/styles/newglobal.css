@@ -1,0 +1,175 @@
+Global Styles */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #15b6b4;
+    color: white;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Button Styles */
+button {
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #15b6b4;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #157bb6;
+}
+
+/* Form Styles */
+form {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="text"], select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #15b6b4;
+}
+
+/* Specific Page Styles */
+
+/* Home Page */
+.home-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.home-main button {
+    width: 50%;
+    max-width: 300px;
+}
+
+/* Search Page */
+.search-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-main div {
+    margin: 10px 0;
+}
+
+/* Results Page */
+.results-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.results-main h2, .results-main p {
+    margin: 10px 0;
+}
+/* Global Styles */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('{{ url_for(\'static\', filename=\'images/background.jpg\') }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black; /* Ensure text is readable */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+    color: white;
+}
+
+.header-left h1 {
+    margin: 0;
+}
+
+.weather-button {
+    text-decoration: none;
+    color: white;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.weather-button:hover {
+    background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+}
+
+.section-2,
+.section-3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+
+}
+
+.section-2 .photo,
+.section-2 .text,
+.section-3 .photo,
+.section-3 .text {
+    width: 45%; /* Adjust as needed */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

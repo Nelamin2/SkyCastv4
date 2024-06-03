@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About SkyCast</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
+    <style>
+        /* Add this CSS to your existing stylesheet or create a new one */
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+            color: white;
+        }
+
+        .header-left h1 {
+            margin: 0;
+        }
+
+        .weather-button {
+            text-decoration: none;
+            color: white;
+            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .weather-button:hover {
+            background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .section-1 {
+            text-align: center;
+        }
+
+        .section-2,
+        .section-3 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-2 .photo,
+        .section-2 .text,
+        .section-3 .photo,
+        .section-3 .text {
+            width: 45%; /* Adjust as needed */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>SkyCast</h1>
+        </div>
+        <div class="header-right">
+            <a href="{{ url_for('search') }}" class="weather-button">Get Your Weather Now</a>
+        </div>
+    </header>
+    <main>
+        <section class="section-1 centered">
+            <div class="text-centered">
+                <h2>Every forecast sparks a new adventure</h2>
+                <p>A unique weather app that aims to provide more than just your daily forecast. As a part of an innovative portfolio project, SkyCast brings together essential weather information and crucial air quality insights to help you plan your day with confidence and awareness.</p>
+            </div>
+        </section>
+        <section class="section-2">
+            <div class="photo">
+                <img src="{{ url_for('static', filename='images/Weather Update Image.jpg') }}" alt="Weather Update Image">
+            </div>
+            <div class="text">
+                <h2>Real-Time Weather Update</h2>
+                <p>Stay updated with the latest weather forecasts. SkyCast provides accurate weather data, ensuring you are prepared for any condition.</p>
+            </div>
+        </section>
+        <section class="section-3">
+            <div class="text">
+                <h2>Air Quality Measurement</h2>
+                <p>Air pollution is a critical health risk. SkyCast offers real-time air quality measurements, helping you understand the air you breathe. With air pollution being the fourth leading risk factor for early death globally, it's essential to stay informed about the air quality in your area.</p>
+            </div>
+            <div class="photo">
+                <img src="{{ url_for('static', filename='images/quality.jpg') }}" alt="Air Quality Measurement Image">
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+

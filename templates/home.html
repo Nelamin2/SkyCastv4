@@ -2,14 +2,14 @@
 <html>
 <head>
     <title>SkyCast Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
 </head>
 <body>
     <header>
         <h1>SkyCast</h1>
     </header>
     <main>
-        <form action="{{ url_for('search') }}">
+        <form action="{{ url_for('newsearch.html') }}">
             <button type="submit">Get Your Forecast</button>
         </form>
     </main>

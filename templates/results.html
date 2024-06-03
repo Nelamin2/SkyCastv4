@@ -1,11 +1,10 @@
-<!-- results.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>SkyCast Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
     <style>
-        .aqi-container {
+        .centered-container {
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -51,14 +50,18 @@
 </head>
 <body>
     <header>
-        <h1>SkyCast</h1>
+        <a href="{{ url_for('home') }}" style="text-decoration: none; color: white;">
+            <h1>SkyCast</h1>
+        </a>
     </header>
     <main>
-        <h2>Weather in {{ location }}</h2>
-        <p>Temperature: {{ temp }}{{ units }}</p>
-        <p>Feels Like: {{ feels_like }}{{ units }}</p>
-        <p>Weather: {{ weather }}</p>
-        <div class="aqi-container" id="aqi-container">
+        <div class="centered-container">
+            <h2>Weather in {{ location }}</h2>
+            <p>Temperature: {{ temp }}{{ units }}</p>
+            <p>Feels Like: {{ feels_like }}{{ units }}</p>
+            <p>Weather: {{ weather }}</p>
+        </div>
+        <div class="centered-container" id="aqi-container">
             <h2>Air Quality</h2>
             <div class="aqi-symbol" id="aqi-symbol"></div>
             <p class="aqi-text">AQI: {{ aqi }}</p>
@@ -113,4 +116,3 @@
     </script>
 </body>
 </html>
-<!-- End of results.html -->

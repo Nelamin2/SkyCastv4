@@ -9,7 +9,7 @@ def search():
     Returns:
         render_template: the search page
     """
-    return render_template('search.html')
+    return render_template('newsearch.html')
 
 @app.route('/')
 def home():
@@ -17,7 +17,7 @@ def home():
     a function that returns the home page
     Returns:  render_template: the home page
     """
-    return render_template('home.html')
+    return render_template('newhome.html')
 
 @app.route('/results', methods=['POST'])
 def get_forecast():
@@ -74,7 +74,6 @@ def get_city_name_by_coordinates(lat, lon, api_key):
         lat 
         lon 
         api_key 
-
     Returns:
         Returns the city name and state name if available, otherwise returns the state name only.
     """
