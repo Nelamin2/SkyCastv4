@@ -1,38 +1,74 @@
 import requests
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'thisisasecretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    favorite_places = db.Column(db.PickleType, nullable=True)
+
+class RegisterForm(FlaskForm):
+    email = StringField(validators=[
+        InputRequired(), Length(min=4, max=50)], render_kw={"placeholder": "Email"})
+    password = PasswordField(validators=[
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    submit = SubmitField('Register')
+
+    def validate_email(self, email):
+        existing_user_email = User.query.filter_by(email=email.data).first()
+        if existing_user_email:
+            raise ValidationError('That email already exists. Please choose a different one.')
+
+class LoginForm(FlaskForm):
+    email = StringField(validators=[
+        InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Email"})
+    password = PasswordField(validators=[
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    submit = SubmitField('Login')
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/search')
 def search():
-    """ a function that returns the search page
-    Returns:
-        render_template: the search page
-    """
     return render_template('newsearch.html')
 
 @app.route('/')
 def home():
-    """ 
-    a function that returns the home page
-    Returns:  render_template: the home page
-    """
     return render_template('newhome.html')
 
 @app.route('/results', methods=['POST'])
 def get_forecast():
-    """ 
-    a function that returns the results page
-    Returns: render_template: the results page
-    """
     location = request.form.get('location')
     if not location:
         abort(400, description="The 'location' field is required.")
 
     api_key = "3450acc3ccb969baf99ddbcb6796e04e"
     qapi_key = "f8f537204d2341b8292c06070ef4c6cd908686acbd6288bf1c4ea701ba90c2e5"
-
-    units = request.form.get('units', 'imperial')  # Default to Fahrenheit if no unit is specified
+    units = request.form.get('units', 'imperial')
     units_symbol = '°F' if units == 'imperial' else '°C' if units == 'metric' else 'K'
 
     if ',' in location:
@@ -51,32 +87,21 @@ def get_forecast():
         feels_like = "{0:.2f}".format(data["main"]["feels_like"])
         weather = data["weather"][0]["main"]
         location_name = data["name"]
+        
 
-    # Fetch air quality data
         air_quality = get_air_quality(location_name, qapi_key)
-        print("Air Quality Data:", air_quality)  # Debug print
         if air_quality:
             aqi = air_quality.get("aqi", "N/A")
             pollutants = air_quality.get("pollutants", "N/A")
         else:
             aqi = "N/A"
             pollutants = "N/A"
-        return render_template('results.html',
-                               location=location, temp=temp,
-                               feels_like=feels_like, weather=weather, units=units_symbol,  aqi=aqi, pollutants=pollutants)
+
+        return render_template('results.html', location=location, temp=temp, feels_like=feels_like, weather=weather, units=units_symbol, aqi=aqi, pollutants=pollutants)
     else:
         abort(400, description="Invalid location or API response.")
 
 def get_city_name_by_coordinates(lat, lon, api_key):
-    """ a function that returns the city name and state name if available, otherwise returns the state name only.
-
-    Args:
-        lat 
-        lon 
-        api_key 
-    Returns:
-        Returns the city name and state name if available, otherwise returns the state name only.
-    """
     reverse_geocode_url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}"
     response = requests.get(reverse_geocode_url)
     data = response.json()
@@ -84,39 +109,19 @@ def get_city_name_by_coordinates(lat, lon, api_key):
         city_name = data[0].get("name")
         state_name = data[0].get("state")
         if city_name == "Municipality of Al Shamal":
-            city_name = "Riyadh"  # Map Municipality of Al Shamal to Riyadh
+            city_name = "Riyadh"
         if city_name and state_name:
             return city_name, state_name
         elif state_name:
             return None, state_name
     return None, None
-def get_weather_results_by_zip(zip_code, api_key, units):
-    """ 
-    a function that returns the weather data for the given zip code.
-    Args:
-        zip_code 
-        api_key 
-        units 
 
-    Returns:
-        Returns the weather data for the given zip code.
-    """
+def get_weather_results_by_zip(zip_code, api_key, units):
     api_url = f"http://api.openweathermap.org/data/2.5/weather?zip={zip_code}&units={units}&appid={api_key}"
     r = requests.get(api_url)
     return r.json()
 
 def get_weather_results_by_city(city_name, state_name, api_key, units):
-    """
-    a function that returns the weather data for the given city name.
-    Args:
-        city_name 
-        state_name 
-        api_key 
-        units 
-
-    Returns:
-        Returns the weather data for the given city name.
-    """
     if city_name:
         api_url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&units={units}&appid={api_key}"
     else:
@@ -126,9 +131,7 @@ def get_weather_results_by_city(city_name, state_name, api_key, units):
 
 def get_air_quality(city_name, qapi_key):
     api_url = f"https://api.openaq.org/v2/latest?city={city_name}"
-    headers = {
-        'X-API-Key': qapi_key
-    }
+    headers = {'X-API-Key': qapi_key}
     response = requests.get(api_url, headers=headers)
     data = response.json()
     if response.status_code == 200 and "results" in data and len(data["results"]) > 0:
@@ -137,5 +140,41 @@ def get_air_quality(city_name, qapi_key):
         return {"aqi": aqi, "pollutants": pollutants}
     return None
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            return redirect(url_for('search'))
+    return render_template('login.html', form=form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_user = User(email=form.email.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('home'))
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>About SkyCast</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
     <style>
         /* Add this CSS to your existing stylesheet or create a new one */
@@ -27,6 +30,19 @@
             margin: 0;
         }
 
+        .header .favorite-cities-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .header .favorite-cities-btn:hover {
+            background-color: #0056b3;
+        }
         .weather-button {
             text-decoration: none;
             color: white;
@@ -34,10 +50,24 @@
             padding: 10px 20px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            margin-right: 10px; /* Added margin */
         }
 
         .weather-button:hover {
             background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
+        }
+
+        .login-button {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff; /* Blue color for login button */
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
 
         main {
@@ -45,10 +75,9 @@
         }
 
         section {
-            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
             padding: 20px;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 0 auto;
         }
 
         .section-1 {
@@ -77,13 +106,16 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="header-left">
             <h1>SkyCast</h1>
         </div>
         <div class="header-right">
-            <a href="{{ url_for('search') }}" class="weather-button">Get Your Weather Now</a>
+            <a href="{{ url_for('about') }}" class="weather-button">About</a>
+            <a href="{{ url_for('search') }}" class="weather-button">Get Your Weather Now</a> <!-- Moved weather button -->
+            <a href="{{ url_for('login') }}" class="login-button">Login</a> <!-- Moved login button -->
         </div>
     </header>
     <main>
@@ -114,6 +146,9 @@
     </main>
 </body>
 </html>
+
+
+
 
 
 

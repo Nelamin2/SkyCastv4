@@ -5,14 +5,32 @@ body {
     padding: 0;
     text-align: center;
     background-color: #f0f0f0;
+    background-image: url('{{ url_for(\'static\', filename=\'images/background.jpg\') }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
 }
 
 header {
-    background-color: #15b6b4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
     color: white;
-    padding: 20px 0;
+    text-align: left;
 }
-
+header a {
+    color: white;    
+    text-decoration: none;    
+    font-size: 24px;    
+    font-weight: bold;    
+    font-family: 'Lato', sans-serif; 
+}
+.header-left a:hover {
+        text-decoration: underline;
+}
 h1 {
     margin: 0;
 }
@@ -33,11 +51,25 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 16px;
 }
-
 button:hover {
     background-color: #157bb6;
 }
+
+.weather-button {
+    text-decoration: none;
+    color: white;
+    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.weather-button:hover {
+    background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
+}
+
 
 /* Form Styles */
 form {
@@ -50,7 +82,7 @@ form {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-input[type="text"], select {
+.input-field {
     width: calc(100% - 22px);
     padding: 10px;
     margin: 10px 0;
@@ -59,7 +91,7 @@ input[type="text"], select {
     font-size: 16px;
 }
 
-input[type="text"]:focus, select:focus {
+.input-field:focus {
     outline: none;
     border-color: #15b6b4;
 }
@@ -101,54 +133,10 @@ input[type="text"]:focus, select:focus {
 .results-main h2, .results-main p {
     margin: 10px 0;
 }
-/* Global Styles */
-body {
-    font-family: 'Lato', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('{{ url_for(\'static\', filename=\'images/background.jpg\') }}');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: black; /* Ensure text is readable */
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
-    color: white;
-}
-
-.header-left h1 {
-    margin: 0;
-}
-
-.weather-button {
-    text-decoration: none;
-    color: white;
-    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.weather-button:hover {
-    background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
-}
-
-main {
-    padding: 20px;
-}
-
 section {
-    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
     padding: 20px;
     border-radius: 10px;
     margin: 20px 0;
-    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
 }
 
 .section-2,
@@ -157,19 +145,75 @@ section {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
-
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
 .section-2 .photo,
 .section-2 .text,
 .section-3 .photo,
 .section-3 .text {
-    width: 45%; /* Adjust as needed */
+    width: 45%;
 }
 
 img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
+}
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 600px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .weather-button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    section {
+        padding: 10px;
+        flex-direction: column;
+        margin:  0 auto;
+        align-items: center;
+    }
+
+    .section-2, .section-3 {
+        flex-direction: column;
+        align-items: center;
+    }
+   .section-3 {
+        flex-direction: column;
+        align-items: center;
+    }
+    .section-2 .photo, .section-2 .text,
+    .section-3 .photo, .section-3 .text {
+        width: 100%;
+        margin: 0 auto;
+    }
+    button {
+        width: 80%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    form {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input[type="text"], select {
+        width: calc(100% - 20px);
+    }
+
+    .home-main {
+        height: auto;
+    }
+
+    .home-main button {
+        width: 80%;
+    }
 }
