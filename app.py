@@ -7,28 +7,42 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
+from flask_wtf import FlaskForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
-    favorite_places = db.Column(db.PickleType, nullable=True)
+    
+    def __repr__(self):
+        return f'<User {self.email}>'
+    
+    def set_password(self, password):
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
+        
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 class RegisterForm(FlaskForm):
     email = StringField(validators=[
@@ -36,7 +50,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField(validators=[
         InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField('Register')
-
+    
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()
         if existing_user_email:
@@ -48,13 +62,17 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[
         InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
-
-with app.app_context():
+    
+@app.before_request
+def before_first_request():
     db.create_all()
+    pass
+
 
 @app.route('/search')
+@login_required
 def search():
-    return render_template('newsearch.html')
+   return render_template('newsearch.html')
 
 @app.route('/')
 def home():
@@ -87,7 +105,6 @@ def get_forecast():
         feels_like = "{0:.2f}".format(data["main"]["feels_like"])
         weather = data["weather"][0]["main"]
         location_name = data["name"]
-        
 
         air_quality = get_air_quality(location_name, qapi_key)
         if air_quality:
@@ -147,7 +164,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
+            flash('Login successful!', 'success')
             return redirect(url_for('search'))
+        else:
+            flash('Login failed. Please check your email and password.', 'danger')
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -158,6 +178,7 @@ def register():
         new_user = User(email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
@@ -165,16 +186,13 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.', 'success')
+    flash('Logged out successfully.')
     return redirect(url_for('home'))
-
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
+

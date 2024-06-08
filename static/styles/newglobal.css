@@ -38,7 +38,14 @@ h1 {
 main {
     padding: 20px;
 }
-
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
 /* Button Styles */
 button {
     padding: 15px 25px;
@@ -70,7 +77,19 @@ button:hover {
     background-color: rgba(21, 123, 182, 0.8); /* Semi-transparent background */
 }
 
+#logout-button {
+    background-color: #157bb6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+#logout-button:hover {
+    background-color: #13557b;
+}
 /* Form Styles */
 form {
     margin: 20px auto;
@@ -168,11 +187,25 @@ img {
         text-align: center;
         padding: 10px;
     }
+        .header-left, .header-right {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
 
-    .weather-button {
-        padding: 10px 15px;
-        font-size: 14px;
-    }
+.header-right {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+.weather-button,
+.login-button {
+            padding: 10px 15px;
+            font-size: 14px;
+            width: 80%; /* Reduced width for buttons */
+            margin: 0 auto; /* Center buttons */
+        }
 
     section {
         padding: 10px;
