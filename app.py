@@ -19,4 +19,4 @@ print(fetch_weather(api_key, 'San Francisco'))  # Fetch by city name
 print(fetch_weather(api_key, '94103'))  # Fetch by zip code
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
