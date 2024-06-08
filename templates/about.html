@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SkyCast</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
+    <style>
+        /* Add this CSS to your existing stylesheet or create a new one */
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+            color: white;
+        }
+
+        .header-left h1 {
+            margin: 0;
+        }
+
+        .header .about-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .header .about-button:hover {
+            background-color: #0056b3;
+        }
+        .login-button {
+            /* Existing styles */
+        }
+    
+        .login-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <h1>SkyCast</h1>
+        </div>
+        <div class="header-right">
+            <a href="{{ url_for('search') }}" class="weather-button">Get Your Weather Now</a>
+            <a href="{{ url_for('login') }}" class="login-button">Login</a>
+        </div>
+    </header>
+    <main>
+        <section>
+            <h2>About SkyCast</h2>
+            <p>SkyCast is not just another weather app; it's your personal weather companion that goes beyond the forecast. With SkyCast, you get more than just the temperature and humidity readings; you get a comprehensive view of your local weather conditions and air quality.</p>
+        </section>
+        <section>
+            <h2>Our Mission</h2>
+            <p>At SkyCast, we believe that weather information should be more than just numbers on a screen. It should empower you to make informed decisions about your day. Our mission is to provide you with accurate, real-time weather data and air quality insights, so you can plan your activities with confidence.</p>
+        </section>
+        <section>
+            <h2>What Makes Us Unique</h2>
+            <ul>
+                <li>Comprehensive Weather Data: Get detailed weather forecasts for your location, including temperature, humidity, wind speed, and more.</li>
+                <li>Real-Time Updates: Stay updated with the latest weather conditions in your area, ensuring you're always prepared.</li>
+                <li>Air Quality Insights: Understand the air quality in your area with real-time air quality measurements and pollution levels.</li>
+                <li>User-Friendly Interface: Our app is designed to be intuitive and easy to use, so you can access the information you need quickly and easily.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Our Team</h2>
+            <p>SkyCast was developed by a team of passionate individuals who are dedicated to providing you with the best possible weather experience. From our developers to our designers, everyone at SkyCast is committed to delivering a top-notch weather app that meets your needs.</p>
+        </section>
+        <section>
+            <h2>Get in Touch</h2>
+            <p>Have questions or feedback? We'd love to hear from you! Contact us at <a href="mailto: [email protected]"> [email protected]</a> and let us know how we can improve SkyCast to better serve you.</p>
+        </section>
+    </main>
+</body>
+
+</html>
+

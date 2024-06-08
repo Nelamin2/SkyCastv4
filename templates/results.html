@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyCast Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
+    <style>
+        .centered-container {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            text-align: center; /* Center text */
+        }
+
+        .aqi-symbol {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-bottom: 10px; /* Add margin below the symbol */
+        }
+
+        .aqi-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home') }}" style="text-decoration: none; color: white;">
+            <h1>SkyCast</h1>
+        </a>
+    </header>
+    <main>
+        <div class="centered-container">
+            <h2>Weather in {{ location }}</h2>
+            <p>Temperature: {{ temp }}{{ units }}</p>
+            <p>Feels Like: {{ feels_like }}{{ units }}</p>
+            <p>Weather: {{ weather }}</p>
+        </div>
+        <div class="centered-container" id="aqi-container">
+            <h2>Air Quality</h2>
+            <div class="aqi-symbol" id="aqi-symbol"></div>
+            <p class="aqi-text">AQI: {{ aqi }}</p>
+            <p>Pollutants: {{ pollutants }}</p>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4CAF50;"></div>
+                <div>Good</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #FFEB3B;"></div>
+                <div>Moderate</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #FF9800;"></div>
+                <div>Unhealthy for Sensitive Groups</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #F44336;"></div>
+                <div>Unhealthy</div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Get the AQI value from the template
+        var aqi = {{ aqi }};
+
+        // Select the AQI symbol and AQI container elements
+        var aqiSymbol = document.getElementById('aqi-symbol');
+        var aqiContainer = document.getElementById('aqi-container');
+
+        // Apply color coding based on AQI value
+        if (aqi <= 50) {
+            aqiSymbol.style.backgroundColor = '#4CAF50'; // Green
+        } else if (aqi <= 100) {
+            aqiSymbol.style.backgroundColor = '#FFEB3B'; // Yellow
+        } else if (aqi <= 150) {
+            aqiSymbol.style.backgroundColor = '#FF9800'; // Orange
+        } else {
+            aqiSymbol.style.backgroundColor = '#F44336'; // Red
+        }
+
+        // Set the text color based on AQI value
+        if (aqi <= 100) {
+            aqiContainer.classList.add('aqi-good');
+        } else if (aqi <= 150) {
+            aqiContainer.classList.add('aqi-moderate');
+        } else {
+            aqiContainer.classList.add('aqi-unhealthy');
+        }
+    </script>
+</body>
+</html>

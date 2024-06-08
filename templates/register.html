@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newglobal.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            text-align: center; /* Center align all text */
+        }
+        header {
+            text-align: center; /* Center align header content */
+            padding: 20px;
+            background-color: rgba(21, 182, 180, 0.8); /* Semi-transparent background */
+            color: white;
+        }
+        form {
+            display: inline-block; /* Make the form inline */
+            text-align: left; /* Align form content to the left */
+        }
+        a {
+            display: block; /* Make the link a block element */
+            margin-top: 20px; /* Add space above the link */
+            text-align: center; /* Center align the link text */
+        }
+    </style>
+    <title>Register</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <a href="/">SkyCast</a>
+        </div>
+    </header>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="input-field">
+            {{ form.email(size=32) }}
+        </div>
+        <div class="input-field">
+            {{ form.password(size=32) }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+
+    <a href="{{ url_for('login') }}">Already have an account? Log In</a>
+</body>
+
+</html>
+
