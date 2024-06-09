@@ -91,10 +91,12 @@ def get_forecast():
 
     if ',' in location:
         lat, lon = location.split(',')
-        city_name, state_name = get_city_name_by_coordinates(lat, lon, api_key)
-        if city_name is None and state_name is None:
-            abort(400, description="Invalid coordinates.")
-        data = get_weather_results_by_city(city_name, state_name, api_key, units)
+        data = get_weather_results_by_coordinates(lat, lon, api_key, units)
+
+        ##city_name, state_name = get_city_name_by_coordinates(lat, lon, api_key)
+        ##if city_name is None and state_name is None:
+        #abort(400, description="Invalid coordinates.")
+        #data = get_weather_results_by_city(city_name, state_name, api_key, units)
     elif location.isdigit():
         data = get_weather_results_by_zip(location, api_key, units)
     else:
@@ -118,20 +120,10 @@ def get_forecast():
     else:
         abort(400, description="Invalid location or API response.")
 
-def get_city_name_by_coordinates(lat, lon, api_key):
-    reverse_geocode_url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}"
-    response = requests.get(reverse_geocode_url)
-    data = response.json()
-    if response.status_code == 200 and len(data) > 0:
-        city_name = data[0].get("name")
-        state_name = data[0].get("state")
-        if city_name == "Municipality of Al Shamal":
-            city_name = "Riyadh"
-        if city_name and state_name:
-            return city_name, state_name
-        elif state_name:
-            return None, state_name
-    return None, None
+def get_weather_results_by_coordinates(lat, lon, api_key, units):
+    api_url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&appid={api_key}"
+    r = requests.get(api_url)
+    return r.json()
 
 def get_weather_results_by_zip(zip_code, api_key, units):
     api_url = f"http://api.openweathermap.org/data/2.5/weather?zip={zip_code}&units={units}&appid={api_key}"
