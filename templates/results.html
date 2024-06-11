@@ -54,6 +54,7 @@
             <h1>SkyCast</h1>
         </a>
     </header>
+    </header>
     <main>
         <div class="centered-container">
             <h2>Weather in {{ location }}</h2>
@@ -87,7 +88,37 @@
         </div>
     </main>
     <script>
-        // Get the AQI value from the template
+        <script>
+            // Get the initial unit metric from the server-side rendering
+            var units = "{{ units }}";
+    
+            // Select the unit selector dropdown menu
+            var unitSelector = document.getElementById("unit-selector");
+    
+            // Set the initial selected unit in the dropdown menu
+            for (var i = 0; i < unitSelector.options.length; i++) {
+                if (unitSelector.options[i].value === units) {
+                    unitSelector.selectedIndex = i;
+                    break;
+                }
+            }
+    
+            // Function to send an AJAX request to update the unit metric
+            function updateUnit() {
+                var unit = document.getElementById("unit-selector").value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/update_unit?units=" + unit, true);
+                xhr.send();
+                xhr.onload = function () {
+                    if (xhr.status == 200) {
+                        location.reload(); // Reload the page to fetch updated results
+                    }
+                };
+            }
+        </script>
+        <script>
+        
+            // Get the AQI value from the template
         var aqi = {{ aqi }};
 
         // Select the AQI symbol and AQI container elements
