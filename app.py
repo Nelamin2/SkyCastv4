@@ -11,16 +11,21 @@ from geopy.geocoders import Nominatim
 import requests
 from flask import jsonify
 
+#starting the flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
+#starting the database
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
+#initilizing the login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+#Defining the class for the user
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -40,7 +45,7 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
+#defining the form classes
 class RegisterForm(FlaskForm):
     email = StringField(validators=[
         InputRequired(), Length(min=4, max=50)], render_kw={"placeholder": "Email"})
@@ -59,7 +64,8 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[
         InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
-
+    
+#defining the routes
 @app.route('/registered_users')
 def registered_users():
     registered_users_count = User.query.count()
@@ -71,14 +77,29 @@ def registered_users():
 @app.route('/search')
 @login_required
 def search():
-   return render_template('newsearch.html')
+    """
+    a function that returns the search page
+
+    Returns:
+    render_template: returns the search page
+    """
+def search():
+    return render_template('newsearch.html')
 
 @app.route('/')
 def home():
+    """ a function that returns the home page
+
+    Returns:
+        html: returns the home page
+    """
     return render_template('newhome.html')
 
 @app.route('/results', methods=['POST'])
 def get_forecast():
+    """ a function that returns the results page
+    """
+   
     location = request.form.get('location')
     if not location:
         abort(400, description="The 'location' field is required.")
@@ -119,6 +140,8 @@ def get_forecast():
         
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """ a function that returns the login page
+    """
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -132,6 +155,9 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    a function that returns the register page
+    """
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -146,6 +172,9 @@ def register():
 @app.route('/logout')
 @login_required
 def logout():
+    """ a function that logs out the user
+    """
+
     logout_user()
     flash('Logged out successfully.')
     return redirect(url_for('home'))
@@ -154,7 +183,7 @@ def logout():
 def about():
     return render_template('about.html')
 
-
+#defining the weather functions
 def get_weather_results_by_coordinates(lat, lon, api_key, units):
     api_url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&appid={api_key}"
     r = requests.get(api_url)
@@ -174,6 +203,8 @@ def get_weather_results_by_city(city_name, state_name, api_key, units):
     return result.json()
 
 def get_air_quality(city_name, qapi_key):
+    """ a function that returns the air quality of a city
+    """
     api_url = f"https://api.openaq.org/v2/latest?city={city_name}"
     headers = {
         "x-api-key": qapi_key
@@ -191,6 +222,9 @@ def get_air_quality(city_name, qapi_key):
 
 def print_registered_users():
     with app.app_context():
+        """ 
+        a function that prints the registered users
+        """
         registered_users_count = User.query.count()
         print(f'Number of registered users: {registered_users_count}')
         emails = [user.email for user in User.query.all()]
